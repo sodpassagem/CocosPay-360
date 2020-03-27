@@ -1,0 +1,40 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
+      env:
+        CI: true
+- nome: Setup Node.js para uso com ações
+  usa: actions/setup-node@v1.1.0
+  com:
+    # Version Especificação da versão a ser usada. Exemplos: 10.x, 10.15.1,> = 10.15.0, lts
+    versão: # opcional, o padrão é 10.x
+    # Registro opcional a ser configurado para autenticação. Definirá o registro em um arquivo .npmrc e .yarnrc no nível do projeto e configurará a autenticação para leitura no env.NODE_AUTH_TOKEN
+    URL do registro: # opcional
+    # Escopo opcional para autenticação em registros com escopo
+    escopo: # opcional
